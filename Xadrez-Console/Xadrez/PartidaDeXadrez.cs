@@ -1,20 +1,21 @@
 ﻿using System;
 using tabuleiro;
+using Execeptions;
 
 namespace Xadrez
 {
     class PartidaDeXadrez
     {
         public Tabuleiro tab { get;private set; }
-        private int turno;
-        private Cor jogadorAtual;
+        public int Turno { get;private set; }
+        public Cor JogadorAtual { get;private set; }
         public bool Terminada { get;private set; }
 
         public PartidaDeXadrez()
         {
             tab = new Tabuleiro(8, 8);
-            turno = 1;
-            jogadorAtual = Cor.Branca;
+            Turno = 1;
+            JogadorAtual = Cor.Branca;
             Terminada = false;
             ColocarPecas();
         }
@@ -24,6 +25,39 @@ namespace Xadrez
             Peca pecaCapturada = tab.RetirarPeca(destino);
             tab.ColocarPeca(p, destino);
 
+        }
+        public void RealizaJogada(Posicao origem,Posicao destino)
+        {
+            ExecutaMovimento(origem, destino);
+            Turno++;
+            MudaJogador();
+        }
+        public void ValidarPosicaoDeOrigem(Posicao pos)
+        {
+            if(tab.peca(pos) == null) {
+                throw new TabuleiroExeception("Não existe peça na posicao de origem escolhida!");
+            }
+            if(JogadorAtual != tab.peca(pos).Cor) {
+                throw new TabuleiroExeception("A peça de origem escolhida não é sua! ");
+            }
+            if (!tab.peca(pos).existeMovimentosPossiveis()) {
+                throw new TabuleiroExeception("não há movimentos possiveis para peça de origem escolhida!");
+            }
+        }
+        public void ValidarPosicaoDeDestino(Posicao origem,Posicao destino)
+        {
+            if (!tab.peca(origem).PodeMoverPara(destino)) {
+                throw new TabuleiroExeception("Posição de destino inválida!");
+            }
+        }
+        private void MudaJogador()
+        {
+            if(JogadorAtual == Cor.Branca) {
+                JogadorAtual = Cor.Preta;
+            } 
+            else {
+                JogadorAtual = Cor.Branca;
+            }
         }
         private void ColocarPecas()
         {
