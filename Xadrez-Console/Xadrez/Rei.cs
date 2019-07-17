@@ -38,7 +38,7 @@ namespace Xadrez
                 mat[pos.Linha, pos.Coluna] = true;
             }
             //verificar sudeste
-            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
             if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
                 mat[pos.Linha, pos.Coluna] = true;
             }
