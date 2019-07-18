@@ -23,48 +23,47 @@ namespace Xadrez
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas];
 
             Posicao pos = new Posicao(0, 0);
-            //verificar acima
-            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
-                mat[pos.Linha, pos.Coluna] = true;
-            }
-            //verificar nordeste
-            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
-                mat[pos.Linha, pos.Coluna] = true;
-            }
-            //verificar direita 
-            pos.DefinirValores(Posicao.Linha, Posicao.Coluna + 1);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
-                mat[pos.Linha, pos.Coluna] = true;
-            }
-            //verificar sudeste
-            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
-                mat[pos.Linha, pos.Coluna] = true;
-            }
-            //verificar abaixo
-            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
-                mat[pos.Linha, pos.Coluna] = true;
-            }
-            //verificar sudoeste
+            // NO
             pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
+            while (Tab.PosicaoValida(pos) && PodeMover(pos)) {
                 mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.peca(pos) != null && Tab.peca(pos).Cor != Cor) {
+                    break;
+                }
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna - 1);
             }
-            //verificar esquerda
-            pos.DefinirValores(Posicao.Linha, Posicao.Coluna - 1);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
-                mat[pos.Linha, pos.Coluna] = true;
-            }
-            //verificar noroeste
-            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
-            if (Tab.PosicaoValida(pos) && PodeMover(pos)) {
-                mat[pos.Linha, pos.Coluna] = true;
-            }
-            return mat;
 
+            // NE
+            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos)) {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.peca(pos) != null && Tab.peca(pos).Cor != Cor) {
+                    break;
+                }
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna + 1);
+            }
+
+            // SE
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos)) {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.peca(pos) != null && Tab.peca(pos).Cor != Cor) {
+                    break;
+                }
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna + 1);
+            }
+
+            // SO
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos)) {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.peca(pos) != null && Tab.peca(pos).Cor != Cor) {
+                    break;
+                }
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna - 1);
+            }
+
+            return mat;
         }
     }
 }
